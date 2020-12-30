@@ -27,16 +27,16 @@ class SQLite:
                 (text, intTYPE1,)).fetchall()
             return bool(len(result))
 
-    def get_data(self, intTYPE1):
+    def get_data(self, user_id, intTYPE1):
         """Получаем все записи"""
         with self.connection:
-            return self.cursor.execute("SELECT * FROM data_table WHERE TYPE1== ?", (intTYPE1,)).fetchall()
+            return self.cursor.execute("SELECT * FROM data_table WHERE user_id=? AND TYPE1== ?", (user_id, intTYPE1,)).fetchall()
 
-    def get_data1(self, intTYPE1, intTYPE2):
+    def get_data1(self,user_id, intTYPE1, intTYPE2):
         """Получаем все записи с категорией"""
         with self.connection:
-            return self.cursor.execute("SELECT * FROM data_table WHERE TYPE1== ? AND TYPE2== ?",
-                                       (intTYPE1, intTYPE2,)).fetchall()
+            return self.cursor.execute("SELECT * FROM data_table WHERE user_id=? AND TYPE1== ? AND TYPE2== ?",
+                                       (user_id, intTYPE1, intTYPE2,)).fetchall()
 
     def add_data(self, text, user_id, TYPE1, TYPE2, subcategory):
         """Добавляем данные"""

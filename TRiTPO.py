@@ -95,6 +95,7 @@ def help_mes(message):
     subcategoryRun = False
     changeRun = False
 
+
 @bot.message_handler(commands=['hard_clear'])
 def clear(message):
     db = SQLite('data.db')
@@ -102,6 +103,7 @@ def clear(message):
 
     bot.send_message(message.chat.id, "От вас в БД не осталось ни следа")
     db.close()
+
 
 @bot.message_handler(commands=['clear_links'])
 def clear1(message):
@@ -293,12 +295,11 @@ def callback_inline(call):
                                               text="Меняем категорию " + name + " на категорию...",
                                               reply_markup=ChangeTYPE2Keyboard)
 
-
                     # call.data сохраняем во временные переменные, ибо когда они обрабатываются (edit or send message),
                     # они по сути считаются отработаными, и исчезают
 
-                  #  if call.data in keyboard.changeType2Dict.keys():
-                     #   changeRun = True
+                    #  if call.data in keyboard.changeType2Dict.keys():
+                    #   changeRun = True
                     if changeRun == True:
                         if call.data in keyboard.changeType2Dict.keys():  # если call_data встречается в ключах
                             changeRun = False
@@ -351,7 +352,8 @@ def callback_inline(call):
                     # save user_id_TEXT_TYPE1_TYPE2_temp_call_data_   Description?
                     isRunning = False
             if call.data == "L_Look_all":
-                result = db.get_data(1)
+                isRunning = True
+                result = db.get_data(user_id, 1)
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                       text="🌐Ссылки", reply_markup=None)
                 bot.send_message(chat_id=call.message.chat.id,
@@ -372,53 +374,57 @@ def callback_inline(call):
                                               f"Категория: {category}\nПодкатегория: {t_subcategory_done}",
                                          parse_mode='html')
                         i = i + 1
+                        isRunning = False
                     else:
                         bot.send_message(chat_id=call.message.chat.id,
                                          text=f"{number}. <a href='{t_text}'>{t_text}</a>\n"
                                               f"Категория: {category}",
                                          parse_mode='html')
+                        isRunning = False
                         i = i + 1
             elif call.data == "L_Look_Category":
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                       text="🌐Выбрерите категорию...", reply_markup=keyboard.ChangeTYPE2Keyboard)
                 L_allRun = True
 
-           # if call.data in keyboard.changeType2Dict.keys():
-           #     L_allRun = True
+            # if call.data in keyboard.changeType2Dict.keys():
+            #     L_allRun = True
 
             if L_allRun and call.data in keyboard.changeType2Dict.keys():
-                if L_allRun:
-                    temp_call_data = call.data
-                    number = keyboard.associativeDictnum.get(temp_call_data)
-                    L_allRun = False
-                    result = db.get_data1(1, number)
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                          text="🌐Категории", reply_markup=None)
-                    bot.send_message(chat_id=call.message.chat.id,
-                                     text="Список")
-                    i = 1
-                    for tuple_ in result:
-                        t_text, t_user_id, t_type1, t_type2, t_subcategory = tuple_
-                        if not t_type2 == 8 and not t_type2 == 9:
-                            needed__dict = keyboard.mirroredAssociativeDict.get(
-                                str(t_type2))  # В кортеже хранится int для скорости, поэтому преобразовываем
-                            # videoDict                                         # 1=Video
-                            number = str(i)
-                            category = keyboard.mirroredRAssociativeDict.get(str(t_type2))
-                            t_subcategory_done = needed__dict.get(t_subcategory)
-                            texxxt = str(t_text)
-                            bot.send_message(chat_id=call.message.chat.id,
-                                             text=f"{number}. <a href='{t_text}'>{t_text}</a>\n"
-                                                  f"Категория: {category}\nПодкатегория: {t_subcategory_done}",
-                                             parse_mode='html')
-                            i = i + 1
+                temp_call_data = call.data
+                number = keyboard.associativeDictnum.get(temp_call_data)
+                L_allRun = False
+                result = db.get_data1(user_id, 1, number)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                      text="🌐Категории", reply_markup=None)
+                bot.send_message(chat_id=call.message.chat.id,
+                                 text="Список")
+                i = 1
+                for tuple_ in result:
+                    t_text, t_user_id, t_type1, t_type2, t_subcategory = tuple_
+                    if not t_type2 == 8 and not t_type2 == 9:
+                        needed__dict = keyboard.mirroredAssociativeDict.get(
+                            str(t_type2))  # В кортеже хранится int для скорости, поэтому преобразовываем
+                        # videoDict                                         # 1=Video
+                        number = str(i)
+                        category = keyboard.mirroredRAssociativeDict.get(str(t_type2))
+                        t_subcategory_done = needed__dict.get(t_subcategory)
+                        texxxt = str(t_text)
+                        bot.send_message(chat_id=call.message.chat.id,
+                                         text=f"{number}. <a href='{t_text}'>{t_text}</a>\n"
+                                              f"Категория: {category}\nПодкатегория: {t_subcategory_done}",
+                                         parse_mode='html')
+                        isRunning = False
+                        i = i + 1
 
-                        else:
-                            bot.send_message(chat_id=call.message.chat.id,
-                                             text=f"{number}. <a href='{t_text}'>{t_text}</a>\n"
-                                                  f"Категория: {category}",
-                                             parse_mode='html')
-                            i = i + 1
+                    else:
+                        bot.send_message(chat_id=call.message.chat.id,
+                                         text=f"{number}. <a href='{t_text}'>{t_text}</a>\n"
+                                              f"Категория: {category}",
+                                         parse_mode='html')
+
+                        i = i + 1
+            isRunning = False
 
             # if call.data == "L_Redact":
             #     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2)
@@ -438,7 +444,8 @@ def callback_inline(call):
             #     pass
 
             if call.data == "N_Look_all":
-                result = db.get_data(2)
+                isRunning = True
+                result = db.get_data(user_id, 2)
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                       text="📝Заметки", reply_markup=None)
                 bot.send_message(chat_id=call.message.chat.id,
@@ -453,40 +460,43 @@ def callback_inline(call):
                                           f"{t_text}\n",
                                      parse_mode='html')
                     i = i + 1
+                isRunning = False
 
             elif call.data == "N_Look_Category":
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                       text="📝Выбрерите категорию...", reply_markup=keyboard.noteCategory1Keyboard)
+                isRunning = True
                 N_allRun = True
 
-            #if call.data in keyboard.noteAssociativeDict1.keys():
-
+            # if call.data in keyboard.noteAssociativeDict1.keys():
 
             if N_allRun and call.data in keyboard.noteAssociativeDict1.keys():
-                if N_allRun:
-                    temp_call_data = call.data
-                    number = int(keyboard.noteAssociativeDict1.get(temp_call_data))
-                    N_allRun = False
-                    result = db.get_data1(2, number)
-                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                          text="📝Категории", reply_markup=None)
+                isRunning = True
+                temp_call_data = call.data
+                number = int(keyboard.noteAssociativeDict1.get(temp_call_data))
+                N_allRun = False
+                result = db.get_data1(user_id, 2, number)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                      text="📝Категории", reply_markup=None)
+                bot.send_message(chat_id=call.message.chat.id,
+                                 text="Список:")
+                i = 1
+                for tuple_ in result:
+                    t_text, t_user_id, t_type1, t_type2, t_subcategory = tuple_
+                    # needed__dict = keyboard.mirroredAssociativeDict.get(
+                    #      str(t_type2))  # В кортеже хранится int для скорости, поэтому преобразовываем
+                    # videoDict                                         # 1=Video
+                    number = str(i)
+                    category = keyboard.mirroredNoteAssociativeDict.get(str(t_type2))
+                    # t_subcategory_done = needed__dict.get(t_subcategory)
+                    texxxt = str(t_text)
                     bot.send_message(chat_id=call.message.chat.id,
-                                     text="Список:")
-                    i = 1
-                    for tuple_ in result:
-                        t_text, t_user_id, t_type1, t_type2, t_subcategory = tuple_
-                       # needed__dict = keyboard.mirroredAssociativeDict.get(
-                      #      str(t_type2))  # В кортеже хранится int для скорости, поэтому преобразовываем
-                        # videoDict                                         # 1=Video
-                        number = str(i)
-                        category = keyboard.mirroredNoteAssociativeDict.get(str(t_type2))
-                        #t_subcategory_done = needed__dict.get(t_subcategory)
-                        texxxt = str(t_text)
-                        bot.send_message(chat_id=call.message.chat.id,
-                                         text=f"{number}. Заметка. Категория: {category}\n"
-                                              f"{t_text}\n",
-                                         parse_mode='html')
-                        i = i + 1
+                                     text=f"{number}. Заметка. Категория: {category}\n"
+                                          f"{t_text}\n",
+                                     parse_mode='html')
+
+                    i = i + 1
+                isRunning = False
 
             # if call.data == "N_Redact":
             #    # markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2)
