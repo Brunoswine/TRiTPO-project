@@ -136,3 +136,107 @@
                                 subcategoryRun = False
                                 isRunning = False
                         """
+
+# if call.data == "Ok_exists":
+            #     exists = True
+            #     ok = True
+            #     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+            #                           text='Окей', reply_markup=None)
+            # if call.data == "Redact":
+            #     ok = True
+            #     exists = False
+            #     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+            #                           text='Редактировать ссылку...', reply_markup=None)
+            #     bot.send_message(call.message.chat.id, text)
+
+# bot.send_message(chat_id=call.message.chat.id,
+#                  text=str(i) + '. Ссылка.\n Категория: ' + keyboard.mirroredRAssociativeDict.get(
+#                      str(t_type2)) +
+#                       "\nПодкатегория: " + needed__dict.get(t_subcategory) + "\n" + t_text)
+# print(result)
+# print(t_type2)
+# print(needed__dict)
+# print(t_subcategory)
+# print(keyboard.mirroredRAssociativeDict.get(str(t_type2)))
+# print(needed__dict.get(t_subcategory))
+
+
+# if call.data == "N_Look_all":
+            #     result = db.get_data(2)
+            #     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+            #                           text="📝Заметки", reply_markup=None)
+            #     bot.send_message(chat_id=call.message.chat.id,
+            #                      text="result")
+            #     i = 1
+            #     for tuple_ in result:
+            #         t_text, t_user_id, t_type1, t_type2, t_subcategory = tuple_
+            #         needed__dict = keyboard.mirroredAssociativeDict.get(
+            #             str(t_type2))  # В кортеже хранится int для скорости, поэтому преобразовываем
+            #         # videoDict                                         # 1=Video
+            #         number = str(i)
+            #         category = keyboard.mirroredRAssociativeDict.get(str(t_type2))
+            #         t_subcategory_done = needed__dict.get(t_subcategory)
+            #         texxxt = str(t_text)
+            #         bot.send_message(chat_id=call.message.chat.id,
+            #                          text=f"{number}. <a href='{t_text}'>{t_text}</a>\n"
+            #                               f"Категория: {category}\nПодкатегория: {t_subcategory_done}",
+            #                          parse_mode='html')
+            #         i = i + 1
+            #
+            # elif call.data == "N_Look_Category":
+            #     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+            #                           text="🌐Выбрерите категорию...", reply_markup=keyboard.ChangeTYPE2Keyboard)
+            #
+            # if call.data in keyboard.changeType2Dict.keys():
+            #     L_allRun = True
+            #
+            # if L_allRun:
+            #     if call.data in keyboard.changeType2Dict.keys():
+            #         temp_call_data = call.data
+            #         number = keyboard.associativeDictnum.get(temp_call_data)
+            #         L_allRun = False
+            #         result = db.get_data1(1, number)
+            #         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+            #                               text="🌐Категории", reply_markup=None)
+            #         bot.send_message(chat_id=call.message.chat.id,
+            #                          text="result")
+            #         i = 1
+            #         for tuple_ in result:
+            #             t_text, t_user_id, t_type1, t_type2, t_subcategory = tuple_
+            #             if not t_type2 == 8 and not t_type2 == 9:
+            #                 needed__dict = keyboard.mirroredAssociativeDict.get(
+            #                     str(t_type2))  # В кортеже хранится int для скорости, поэтому преобразовываем
+            #                 # videoDict                                         # 1=Video
+            #                 number = str(i)
+            #                 category = keyboard.mirroredRAssociativeDict.get(str(t_type2))
+            #                 t_subcategory_done = needed__dict.get(t_subcategory)
+            #                 texxxt = str(t_text)
+            #                 bot.send_message(chat_id=call.message.chat.id,
+            #                                  text=f"{number}. <a href='{t_text}'>{t_text}</a>\n"
+            #                                       f"Категория: {category}\nПодкатегория: {t_subcategory_done}",
+            #                                  parse_mode='html')
+            #                 i = i + 1
+            #
+            #             else:
+            #                 bot.send_message(chat_id=call.message.chat.id,
+            #                                  text=f"{number}. <a href='{t_text}'>{t_text}</a>\n"
+            #                                       f"Категория: {category}",
+            #                                  parse_mode='html')
+            #                 i = i + 1
+            #
+            # if call.data == "N_Redact":
+            #     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2)
+            #     result = db.get_data(1)
+            #     bot.send_message(chat_id=call.message.chat.id,
+            #                      text="result")
+            #     i = 1
+            #     number = str(i)
+            #     for tuple_ in result:
+            #         markup.add(number)
+            #
+            #         i = i + 1
+            # bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+            #                       text="Чтобы редактировать, отправьте номер записи сообщения", reply_markup=markup)
+            #
+            # if call.data == "L_Delete":
+            #     pass

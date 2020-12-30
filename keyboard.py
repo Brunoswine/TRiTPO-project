@@ -4,29 +4,67 @@ import telebot
 
 from telebot import types
 
-videoList: list[str] = ["youtube.com/watch", "vk.com/video", "youtu.be"]
+# Тут написано, что это лист, но на деле кортежи(просто менять не хочется), ибо быстрее
 
-articleList = ["habr.com", "reddit.com", "dev.by", "naked-science.ru", "stopgame.ru", "wikipedia.org", "popmech.ru",
-               "cyberleninka.ru", "meduza.io", "onliner.by", "tut.by", "lifehacker.ru"]
+videoList = ("youtube.com/watch", "vk.com/video", "youtu.be")
 
-documentList = ["docs.google.com/document/", "docs.google.com/presentation/", ".ppt", ".pptx", ".doc", ".docx", ".pdf",
-                ".txt", ".htm"]
-spreadsheetList = [".exel", "docs.google.com/spreadsheets/"]
+articleList = ("habr.com", "reddit.com", "dev.by", "naked-science.ru", "stopgame.ru", "wikipedia.org", "popmech.ru",
+               "cyberleninka.ru", "meduza.io", "onliner.by", "tut.by", "lifehacker.ru")
 
-cloudDriveList = ["drive.google.com", "www.dropbox.com", "mega.nz", "cloud.mail.ru", "disk.yandex.ru", "onedrive"]
+documentList = ("docs.google.com/document/", "docs.google.com/presentation/", ".ppt", ".pptx", ".doc", ".docx", ".pdf",
+                ".txt", ".htm")
+spreadsheetList = (".exel", "docs.google.com/spreadsheets/")
 
-githubList = ["github.com", "gitlab.com"]
+cloudDriveList = ("drive.google.com", "www.dropbox.com", "mega.nz", "cloud.mail.ru", "disk.yandex.ru", "onedrive")
 
-jiveList = ['живе беларусь', 'жыве беларусь', 'живе беларусь!', 'жыве беларусь!']
+githubList = ("github.com", "gitlab.com")
 
-mainTYPE2List: list[str] = ["Video", "Article", "Document", "Spreadsheet", "CloudDrive", "Github", "Website"]
+jiveList = ('живе беларусь', 'жыве беларусь', 'живе беларусь!', 'жыве беларусь!')
 
-TYPE2List: list[str] = ["Video", "Article", "Document", "Spreadsheet", "CloudDrive", "Github", "Website", "Product",
-                        "Other"]
+mainTYPE2List = ("Video", "Article", "Document", "Spreadsheet", "CloudDrive", "Github", "Website")
+
+TYPE2List = ["Video", "Article", "Document", "Spreadsheet", "CloudDrive", "Github", "Website", "Product",
+             "Other"]
+
+mainKeyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2)
+item1 = types.KeyboardButton("🌐Ссылки")
+item2 = types.KeyboardButton("📝Заметки")
+item3 = types.KeyboardButton("🎲 Рандомное число")
+# item4 = types.KeyboardButton("🗒Задачи")
+mainKeyboard.add(item1, item2, item3)
+
+noteKeyboard = types.InlineKeyboardMarkup(row_width=2)
+noteKey1 = types.InlineKeyboardButton('Да', callback_data="Yes")
+noteKey2 = types.InlineKeyboardButton('Нет', callback_data="No")
+noteKeyboard.add(noteKey1, noteKey2)
+
+existsKeyboard = types.InlineKeyboardMarkup(row_width=2)
+existsKey1 = types.InlineKeyboardButton('Окей', callback_data="Ok_exists")
+existsKey2 = types.InlineKeyboardButton('Редактивровать', callback_data="Redact")
+existsKeyboard.add(existsKey1, existsKey2)
+
+noteAskKeyboard = types.InlineKeyboardMarkup(row_width=2)
+noteAskKey1 = types.InlineKeyboardButton('Все', callback_data="N_Look_all")
+noteAskKey2 = types.InlineKeyboardButton('Выбрать категорию', callback_data="N_Look_Category")
+noteAskKey3 = types.InlineKeyboardButton('Редактировать', callback_data="N_Redact")
+noteAskKey4 = types.InlineKeyboardButton('Удалить', callback_data="N_Delete")
+noteAskKeyboard.add(noteAskKey1, noteAskKey2, noteAskKey3, noteAskKey4)
+
+linkAskKeyboard = types.InlineKeyboardMarkup(row_width=2)
+linkAskKey1 = types.InlineKeyboardButton('Все', callback_data="L_Look_all")
+linkAskKey2 = types.InlineKeyboardButton('Выбрать категорию', callback_data="L_Look_Category")
+linkAskKey3 = types.InlineKeyboardButton('Редактировать', callback_data="L_Redact")
+linkAskKey4 = types.InlineKeyboardButton('Удалить', callback_data="L_Delete")
+linkAskKeyboard.add(linkAskKey1, linkAskKey2, linkAskKey3, linkAskKey4)
+
+link2AskKeyboard = types.InlineKeyboardMarkup(row_width=2)
+link2AskKey1 = types.InlineKeyboardButton('Все', callback_data="L_all")
+link2AskKey2 = types.InlineKeyboardButton('Выбрать подкатегорию', callback_data="L_Look_subcategory")
+link2AskKeyboard.add(link2AskKey1, link2AskKey2)
 
 rightKeyboard = types.InlineKeyboardMarkup(row_width=2)
 rightKey1 = types.InlineKeyboardButton('Окей', callback_data="OK")
-rightKey2 = types.InlineKeyboardButton('Нет,изменить', callback_data="Change")
+rightKey2 = types.InlineKeyboardButton('Нет, изменить', callback_data="Change")
 rightKey3 = types.InlineKeyboardButton('Добавить подкатегорию', callback_data="subcategory")
 rightKeyboard.add(rightKey1, rightKey2, rightKey3)
 
@@ -63,6 +101,30 @@ videoCategoryKey13 = types.InlineKeyboardButton('Несортированное'
 videoCategoryKeyboard.add(videoCategoryKey1, videoCategoryKey2, videoCategoryKey3, videoCategoryKey4, videoCategoryKey5,
                           videoCategoryKey6, videoCategoryKey7, videoCategoryKey8, videoCategoryKey9,
                           videoCategoryKey10, videoCategoryKey11, videoCategoryKey12, videoCategoryKey13)
+
+noteCategoryKeyboard = types.InlineKeyboardMarkup(row_width=2)
+noteCategoryKey1 = types.InlineKeyboardButton('Фильмы', callback_data="N_Films")
+noteCategoryKey2 = types.InlineKeyboardButton('Музыка', callback_data="N_Music")
+noteCategoryKey3 = types.InlineKeyboardButton('Игры', callback_data="N_Games")
+noteCategoryKey4 = types.InlineKeyboardButton('Идеи для подарков', callback_data="N_Presents")
+noteCategoryKey5 = types.InlineKeyboardButton('Пароли', callback_data="N_Passwords")
+noteCategoryKey6 = types.InlineKeyboardButton('Важная информация', callback_data="N_Important")
+noteCategoryKey7 = types.InlineKeyboardButton('Не забыть', callback_data="N_Remember")
+noteCategoryKey8 = types.InlineKeyboardButton('Другое', callback_data="N_Other")
+noteCategoryKeyboard.add(noteCategoryKey1, noteCategoryKey2, noteCategoryKey3, noteCategoryKey4, noteCategoryKey5,
+                         noteCategoryKey6, noteCategoryKey7, noteCategoryKey8)
+
+noteCategory1Keyboard = types.InlineKeyboardMarkup(row_width=2)
+noteCategory1Key1 = types.InlineKeyboardButton('Фильмы', callback_data="N_Films1")
+noteCategory1Key2 = types.InlineKeyboardButton('Музыка', callback_data="N_Music1")
+noteCategory1Key3 = types.InlineKeyboardButton('Игры', callback_data="N_Games1")
+noteCategory1Key4 = types.InlineKeyboardButton('Идеи для подарков', callback_data="N_Presents1")
+noteCategory1Key5 = types.InlineKeyboardButton('Пароли', callback_data="N_Passwords1")
+noteCategory1Key6 = types.InlineKeyboardButton('Важная информация', callback_data="N_Important1")
+noteCategory1Key7 = types.InlineKeyboardButton('Не забыть', callback_data="N_Remember1")
+noteCategory1Key8 = types.InlineKeyboardButton('Другое', callback_data="N_Other1")
+noteCategory1Keyboard.add(noteCategory1Key1, noteCategory1Key2, noteCategory1Key3, noteCategory1Key4, noteCategory1Key5,
+                          noteCategory1Key6, noteCategory1Key7, noteCategory1Key8)
 
 # подкатегории статьи и видео совпадают, в принципе
 
@@ -134,7 +196,7 @@ websiteCategoryKey6 = types.InlineKeyboardButton('Блог', callback_data="WS_B
 websiteCategoryKey7 = types.InlineKeyboardButton('Другое', callback_data="WS_Other")
 websiteCategoryKey8 = types.InlineKeyboardButton('Несортированное', callback_data="WS_Unsorted")
 websiteCategoryKeyboard.add(websiteCategoryKey1, websiteCategoryKey2, websiteCategoryKey3, websiteCategoryKey4,
-                             websiteCategoryKey5, websiteCategoryKey6, websiteCategoryKey7, websiteCategoryKey8)
+                            websiteCategoryKey5, websiteCategoryKey6, websiteCategoryKey7, websiteCategoryKey8)
 
 videoDict = {"V_Entertainment": 'Развлекательное', "V_Interesting": 'Интересное', "V_Favorite": 'Избранное',
              "V_Informative": 'Познавательное', "V_Training": 'Обучение', "V_University": 'Университет',
@@ -159,14 +221,46 @@ cloudDriveDict = {"CD_University": 'Университет', "CD_Project_RED(xe-
 githubDict = {"GH_Repository": 'Репозиторий', "GH_Project": 'Проект', "GH_Documentation": 'Документация',
               "GH_Interesting": 'Интересное', "GH_Other": 'Другое', "GH_Unsorted": 'Несортированное'}
 
+noteDict = {"N_Films": 'Фильмы', "N_Music": 'Музыка', "N_Games": 'Игры', "N_Presents": 'Идеи для подарков',
+            "N_Passwords": 'Пароли', "N_Important": 'Важная информация', "N_Remember": 'Не забыть', "N_Other": 'Другое'}
+
 websiteDict = {"WS_Training": 'Обучение', "WS_Interesting": 'Интересное', "WS_Favorite": 'Избранное',
                "WS_Programming": 'Программирование', "WS_Games": 'Игры', "WS_Blog": 'Блог',
                "WS_Other": "Другое", "WS_Unsorted": 'Несортированное'}
+
+associativeDict = {"Video": '1', "Article": '2', "Document": '3', "Spreadsheet": '4',
+                   "CloudDrive": '5', "Github": '6', "Website": '7', "Product": '8',
+                   "Other": '9'}
+
+associativeDictnum = {"Video": 1, "Article": 2, "Document": 3, "Spreadsheet": 4,
+                      "CloudDrive": 5, "Github": 6, "Website": 7, "Product": 8,
+                      "Other": 9}
+
+mirroredRAssociativeDict = {"1": 'Видео', "2": 'Статья', "3": 'Документ', "4": 'Таблица',
+                            "5": 'Облако', "6": 'Github', "7": 'Сайт', "8": 'Товар',
+                            "9": 'Другое'}
+
+mirroredAssociativeDict = {"1": videoDict, "2": videoDict, "3": documentDict, "4": spreadsheetDict,
+                           "5": cloudDriveDict, "6": githubDict, "7": websiteDict, "8": 'Product',
+                           "9": 'Other'}
+
+noteAssociativeDict = {"N_Films": '1', "N_Music": '2', "N_Games": '3', "N_Presents": '4',
+                       "N_Passwords": '5', "N_Important": '6', "N_Remember": '7', "N_Other": '8'}
+
+noteAssociativeDict1 = {"N_Films1": '1', "N_Music1": '2', "N_Games1": '3', "N_Presents1": '4',
+                       "N_Passwords1": '5', "N_Important1": '6', "N_Remember1": '7', "N_Other1": '8'}
+
+mirroredNoteAssociativeDict = {"1": 'Фильмы', "2": 'Музыка', "3": 'Игры', "4": 'Идеи для подарков',
+                               "5": 'Пароли', "6": 'Важная информация', "7": 'Не забыть', "8": 'Другое'}
 
 changeKeyboardsDict = {"Video": videoCategoryKeyboard, "Article": videoCategoryKeyboard,
                        "Document": documentCategoryKeyboard, "Spreadsheet": spreadsheetsCategoryKeyboard,
                        "CloudDrive": cloudDriveCategoryKeyboard, "Github": githubCategoryKeyboard,
                        "Website": websiteCategoryKeyboard}
+
+unsortedDict = {"Video": 'V_Unsorted', "Article": 'V_Unsorted', "Document": 'D_Unsorted', "Spreadsheet": 'S_Unsorted',
+                "CloudDrive": 'CD_Unsorted', "Github": 'GH_Unsorted', "Website": 'WS_Unsorted', "Product": 'V_Unsorted',
+                "Other": 'V_Unsorted'}
 
 # О да, это словарь со словарями вы меня правильно поняли, все для того, чтобы сделать легко расширяемый код,
 # без дублирований, но блина, Я пока все это наладил, столько времени прошло, похер на эти 200+лишних строк кода в мэйне
